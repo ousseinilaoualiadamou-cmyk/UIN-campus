@@ -11,16 +11,16 @@ option(UIN_ACTIVER_SANITIZERS "Activer AddressSanitizer et UBSan" OFF)
 add_library(uincampus_options INTERFACE)
 target_compile_features(uincampus_options INTERFACE cxx_std_23)
 if(MSVC)
-target_compile_options(uincampus_options INTERFACE /W4 /permissive‐)
+target_compile_options(uincampus_options INTERFACE /W4 /permissive-)
 else()
 target_compile_options(uincampus_options INTERFACE
-‐Wall ‐Wextra ‐Wpedantic ‐Wshadow ‐Wconversion)
+-Wall -Wextra -Wpedantic -Wshadow -Wconversion)
 endif()
 if(UIN_ACTIVER_SANITIZERS AND NOT MSVC)
 target_compile_options(uincampus_options INTERFACE
-‐fsanitize=address,undefined ‐fno‐omit‐frame‐pointer)
+-fsanitize=address,undefined -fno-omit-frame-pointer)
 target_link_options(uincampus_options INTERFACE
-‐fsanitize=address,undefined)
+-fsanitize=address,undefined)
 endif()
 # ‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐
 # Bibliothèque métier
@@ -33,5 +33,5 @@ target_link_libraries(uincampus_core PRIVATE uincampus_options)
 # ‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐
 # Application
 # ‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐
-add_executable(uin‐campus app/main.cpp)
-target_link_libraries(uin‐campus PRIVATE uincampus_core uincampus_options)
+add_executable(uin-campus app/main.cpp)
+target_link_libraries(uin-campus PRIVATE uincampus_core uincampus_options)
