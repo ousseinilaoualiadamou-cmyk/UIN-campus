@@ -1,46 +1,31 @@
 #include "uincampus/regles.hpp"
 #include "uincampus/saisie.hpp"
 #include "uincampus/version.hpp"
-#include <iomanip>
-#include <iostream>
+#include <format>
+#include <print>
 #include <string>
 #include <vector>
-
 int main() {
-  std::cout << "UIN|Campus - Calcul de la moyenne d'un etudiant\n\n";
-
-  const std::string nom = uin::lireTexte("Nom de l'etudiant : ");
-  const int nbNotes = uin::lireEntier("Nombre de notes (1 a 30) : ", 1, 30);
-
+  std::println("UIN‐Campus {} — Calcul de la moyenne d'un étudiant\n",
+               uin::version());
+  const std::string nom = uin::lireTexte("Nom de l'étudiant : ");
+  const int nbNotes = uin::lireEntier("Nombre de notes (1 à 30) : ", 1, 30);
   std::vector<double> notes;
-  for (int i = 0; i < nbNotes; ++i) {
-    notes.push_back(uin::lireNote("Note " + std::to_string(i + 1) + " : "));
+  for (int i{1}; i <= nbNotes; ++i) {
+    notes.push_back(uin::lireNote(std::format("Note {} : ", i)));
   }
-
-  double somme(0.0);
+  double somme{0.0};
   for (double n : notes) {
     somme += n;
   }
-
   const double moyenne = somme / static_cast<double>(notes.size());
   const uin::Mention mention = uin::mentionPour(moyenne);
-
-  std::cout << std::left << std::setw(20) << "Decision" << std::right
-            << std::setw(20)
-            << (moyenne >= uin::seuilValidation ? "Valide" : "Non valide")
-            << "\n";
-  std::cout << std::left << std::setw(20) << "Nombre de notes" << std::right
-            << std::setw(20) << notes.size() << "\n";
-  std::cout << std::left << std::setw(20) << "Moyenne" << std::right
-            << std::setw(20) << std::fixed << std::setprecision(2) << moyenne
-            << "\n";
-  std::cout << std::left << std::setw(20) << "Mention" << std::right
-            << std::setw(20) << uin::libelle(mention) << "\n";
-  std::cout << std::left << std::setw(20) << "Decision" << std::right
-            << std::setw(20)
-            << (moyenne >= uin::seuilValidation ? "Valide" : "Non valide")
-            << "\n";
-  std::cout << std::string(40, '-') << "\n";
-
-  return 0;
+  std::println("\n{:‐<40}", "");
+  std::println("{:<20}{:>20}", "Étudiant", nom);
+  std::println("{:<20}{:>20}", "Nombre de notes", notes.size());
+  std::println("{:<20}{:>20.2f}", "Moyenne", moyenne);
+  std::println("{:<20}{:>20}", "Mention", uin::libelle(mention));
+  std::println("{:<20}{:>20}", "Décision",
+               moyenne >= uin::seuilValidation ? "Validé" : "Non validé");
+  std::println("{:‐<40}", "");
 }
